@@ -2,6 +2,7 @@
 // This file creates the Discord client and logs it in. It exposes client as global.client
 const {
     Client,
+    Collection,
     GatewayIntentBits,
     ActivityType,
     EmbedBuilder,
@@ -10,6 +11,8 @@ const {
 require("dotenv").config();
 const zik = require("../setting/setting");
 const log = require("../lib/logger.js");
+const fs = require("fs");
+const path = require("path");
 // note: index.js requires setting.js before requiring this module
 const client = new Client({
     intents: [
@@ -41,14 +44,24 @@ const client = new Client({
 });
 
 // expose client globally for event modules that use `client`
+client.commands = new Collection();
+global.client = client;
 
 client.once("clientReady", async () => {
     log.banner("Zikk-AI");
     log.connection("ready");
     log.logger.success(`✅ Bot ${client.user.tag} berhasil login!`);
     updateStatus();
-    setInterval(updateStatus, 30000);
+    setInterval(updateStatus, 120000);
 });
+
+const files = fs.readdirSync(path.join(__dirname, "../slash"));
+for (const file of files) {
+    if (!file.endsWith(".js")) continue;
+    const command = require(path.join(__dirname, "../slash", file));
+    client.commands.set(command.data.name, command);
+    log.logger.success(`[CMD] ${command.data.name}`);
+}
 
 // === UPDATE STATUS ===
 async function updateStatus() {
@@ -83,6 +96,27 @@ async function updateStatus() {
     }
 }
 
+client.on("messageCreate", message => {
+    log.message(message);
+});
+
+client.on("interactionCreate", async interaction => {
+    if (!interaction.isChatInputCommand()) return;
+
+    const command = client.commands.get(interaction.commandName);
+    if (!command) return;
+
+    try {
+        await command.execute(interaction);
+    } catch (err) {
+        console.error(err);
+
+        interaction.reply({
+            content: "Terjadi error.",
+            ephemeral: true
+        });
+    }
+});
 // login (this mirrors original behavior where client.login(botToken) was called at the end)
 client.login(process.env.TOKEN);
 
