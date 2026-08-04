@@ -42,8 +42,10 @@ const client = new Client({
 
 // expose client globally for event modules that use `client`
 
-client.once("ready", async () => {
-    log.success(`✅ Bot ${client.user.tag} berhasil login!`);
+client.once("clientReady", async () => {
+    log.banner("Zikk-AI");
+    log.connection("ready");
+    log.logger.success(`✅ Bot ${client.user.tag} berhasil login!`);
     updateStatus();
     setInterval(updateStatus, 30000);
 });
@@ -73,9 +75,11 @@ async function updateStatus() {
             status: "online"
         });
 
-        log.info(`👀 Watching ${totalOnline}/${totalMembers} member online`);
+        log.logger.info(
+            `👀 Watching${totalOnline}/${totalMembers} member online`
+        );
     } catch (err) {
-        log.error("⚠️ Gagal update status:", err.message);
+        log.logger.error("[ERR]", "⚠️ Gagal update status:", err.message);
     }
 }
 

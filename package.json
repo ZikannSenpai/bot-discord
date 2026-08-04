@@ -14,7 +14,8 @@
         "cli-table3": "^0.6.5",
         "discord.js": "^14.27.0",
         "dotenv": "^17.4.2",
-        "gradient-string": "^3.0.0",
+        "figlet": "^1.11.4",
+        "gradient-string": "^2.0.2",
         "log-symbols": "^7.0.1",
         "ora": "^9.4.1"
     }

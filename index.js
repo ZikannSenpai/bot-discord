@@ -15,7 +15,7 @@ function loadFolder(targetPath) {
             loadFolder(full); // recursive
         } else if (item.endsWith(".js")) {
             require(full);
-            log.success(`Loaded: ${full}`);
+            log.logger.success(`Loaded: ${full}`);
         }
     }
 }
@@ -23,9 +23,9 @@ function loadFolder(targetPath) {
 for (const folder of folders) {
     const absolutePath = path.join(__dirname, folder);
     if (fs.existsSync(absolutePath)) {
-        log.info(`\n📁 Loading folder: ${folder}`);
+        log.logger.info(`📁 Loading folder: ${folder}`);
         loadFolder(absolutePath);
     } else {
-        log.error(`⚠️ Folder nggak ditemukan: ${folder}`);
+        log.logger.error(`⚠️ Folder nggak ditemukan: ${folder}`);
     }
 }
