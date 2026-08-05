@@ -56,9 +56,17 @@ client.once("clientReady", async () => {
 });
 
 const files = fs.readdirSync(path.join(__dirname, "../slash"));
+
 for (const file of files) {
     if (!file.endsWith(".js")) continue;
+
     const command = require(path.join(__dirname, "../slash", file));
+
+    if (!command.data || !command.execute) {
+        log.logger.warn(`[SKIP] ${file} bukan slash command.`);
+        continue;
+    }
+
     client.commands.set(command.data.name, command);
     log.logger.success(`[CMD] ${command.data.name}`);
 }

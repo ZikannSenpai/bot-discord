@@ -1,0 +1,38 @@
+{
+    "script": {
+        "v1": {
+            "PNB": {
+                "price": "",
+                "version": "1.0",
+                "lastUpdate": ""
+            },
+            "PTHT": {
+                "price": "",
+                "version": "1.0",
+                "lastUpdate": ""
+            },
+            "PROXY": {
+                "price": "",
+                "version": "1.0",
+                "lastUpdate": ""
+            }
+        },
+        "v2": {
+            "PNB": {
+                "price": "",
+                "version": "1.0",
+                "lastUpdate": ""
+            },
+            "PTHT": {
+                "price": "",
+                "version": "1.0",
+                "lastUpdate": ""
+            },
+            "PROXY": {
+                "price": "",
+                "version": "1.0",
+                "lastUpdate": ""
+            }
+        }
+    }
+}

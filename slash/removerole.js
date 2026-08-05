@@ -1,5 +1,6 @@
 const { SlashCommandBuilder, PermissionFlagsBits } = require("discord.js");
 const { embed } = require("../lib/embed.js");
+require("../setting/setting");
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -20,9 +21,20 @@ module.exports = {
     async execute(interaction) {
         const member = interaction.options.getMember("member");
 
+        if (
+            !interaction.member.roles.cache.some(r =>
+                zik.ownerRoles.includes(r.id)
+            )
+        ) {
+            return interaction.reply({
+                content: "This command can only be used by the owner.",
+                ephemeral: true
+            });
+        }
+
         if (!member)
             return interaction.reply({
-                content: "Member ga ketemu.",
+                content: "Member not found.",
                 ephemeral: true
             });
 
